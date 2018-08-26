@@ -1,2 +1,3 @@
 # Sort Outlook Mail Attachments
-Downloads and Sort the outlook mail attachment based on type of attachment from 
+Download and Sort outlook mail attachments based on type of attachment from outlook.
+
