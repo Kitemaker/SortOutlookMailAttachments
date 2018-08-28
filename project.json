@@ -1,0 +1,14 @@
+{
+  "name": "SortOutlookMailAttachments",
+  "description": "Project",
+  "main": "SortMailAttachements.xaml",
+  "dependencies": {},
+  "excludedData": [
+    "Private:*",
+    "*password*"
+  ],
+  "toolVersion": "18.2",
+  "projectVersion": "1.0.6814.28933",
+  "packOptions": {},
+  "runtimeOptions": {}
+}
