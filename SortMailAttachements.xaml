@@ -76,10 +76,10 @@
       </Variable>
       <Variable x:TypeArguments="s:String[]" Default="[{&quot;Inbox&quot;}]" Name="FolderList" />
       <Variable x:TypeArguments="x:String" Default="attachment_folder" Name="AttachmentFolder" />
-      <Variable x:TypeArguments="sd:DataTable" Default="[new DataTable()]" Name="dataTable" />
-      <Variable x:TypeArguments="si:DirectoryInfo" Default="[Nothing]" Name="otherFolder" />
-      <Variable x:TypeArguments="si:DirectoryInfo" Name="rootFolder" />
-      <Variable x:TypeArguments="x:String" Default="attachment_details..csv" Name="logFileName" />
+      <Variable x:TypeArguments="sd:DataTable" Default="[new DataTable()]" Name="DataTable" />
+      <Variable x:TypeArguments="si:DirectoryInfo" Default="[Nothing]" Name="OtherFolder" />
+      <Variable x:TypeArguments="si:DirectoryInfo" Name="RootFolder" />
+      <Variable x:TypeArguments="x:String" Default="attachment_details.csv" Name="LogFileName" />
       <Variable x:TypeArguments="x:Int32" Default="30" Name="TopMessageToRead" />
       <Variable x:TypeArguments="x:String" Default="Outlook" Name="AccountType" />
     </Flowchart.Variables>
@@ -117,7 +117,7 @@
                   <FlowStep x:Name="__ReferenceID8" sap2010:WorkflowViewState.IdRef="FlowStep_24">
                     <Assign DisplayName="4. Assign file to save the for Attachement" sap2010:WorkflowViewState.IdRef="Assign_29">
                       <Assign.To>
-                        <OutArgument x:TypeArguments="x:String">[logFileName]</OutArgument>
+                        <OutArgument x:TypeArguments="x:String">[LogFileName]</OutArgument>
                       </Assign.To>
                       <Assign.Value>
                         <InArgument x:TypeArguments="x:String">["attachment_details..csv"]</InArgument>
@@ -140,7 +140,7 @@
                                 <If.Then>
                                   <Assign sap2010:WorkflowViewState.IdRef="Assign_12">
                                     <Assign.To>
-                                      <OutArgument x:TypeArguments="si:DirectoryInfo">[rootFolder]</OutArgument>
+                                      <OutArgument x:TypeArguments="si:DirectoryInfo">[RootFolder]</OutArgument>
                                     </Assign.To>
                                     <Assign.Value>
                                       <InArgument x:TypeArguments="si:DirectoryInfo">[System.IO.Directory.CreateDirectory(AttachmentFolder)]</InArgument>
@@ -150,7 +150,7 @@
                                 <If.Else>
                                   <Assign sap2010:WorkflowViewState.IdRef="Assign_13">
                                     <Assign.To>
-                                      <OutArgument x:TypeArguments="si:DirectoryInfo">[rootFolder]</OutArgument>
+                                      <OutArgument x:TypeArguments="si:DirectoryInfo">[RootFolder]</OutArgument>
                                     </Assign.To>
                                     <Assign.Value>
                                       <InArgument x:TypeArguments="si:DirectoryInfo">[new System.IO.DirectoryInfo(AttachmentFolder)]</InArgument>
@@ -162,7 +162,7 @@
                                 <If.Then>
                                   <Assign sap2010:WorkflowViewState.IdRef="Assign_14">
                                     <Assign.To>
-                                      <OutArgument x:TypeArguments="si:DirectoryInfo">[otherFolder]</OutArgument>
+                                      <OutArgument x:TypeArguments="si:DirectoryInfo">[OtherFolder]</OutArgument>
                                     </Assign.To>
                                     <Assign.Value>
                                       <InArgument x:TypeArguments="si:DirectoryInfo">[System.IO.Directory.CreateDirectory(AttachmentFolder + "\\"+"Others")]</InArgument>
@@ -172,7 +172,7 @@
                                 <If.Else>
                                   <Assign sap2010:WorkflowViewState.IdRef="Assign_15">
                                     <Assign.To>
-                                      <OutArgument x:TypeArguments="si:DirectoryInfo">[otherFolder]</OutArgument>
+                                      <OutArgument x:TypeArguments="si:DirectoryInfo">[OtherFolder]</OutArgument>
                                     </Assign.To>
                                     <Assign.Value>
                                       <InArgument x:TypeArguments="si:DirectoryInfo">[new System.IO.DirectoryInfo(AttachmentFolder + "\\"+"Others")]</InArgument>
@@ -183,10 +183,10 @@
                             </Sequence>
                             <FlowStep.Next>
                               <FlowStep x:Name="__ReferenceID1" sap2010:WorkflowViewState.IdRef="FlowStep_10">
-                                <ui:CreateFile ContinueOnError="{x:Null}" Path="{x:Null}" DisplayName="Create Attachment List File" sap2010:WorkflowViewState.IdRef="CreateFile_1" Name="[logFileName]" />
+                                <ui:CreateFile ContinueOnError="{x:Null}" Path="{x:Null}" DisplayName="Create Attachment List File" sap2010:WorkflowViewState.IdRef="CreateFile_1" Name="[LogFileName]" />
                                 <FlowStep.Next>
                                   <FlowStep x:Name="__ReferenceID4" sap2010:WorkflowViewState.IdRef="FlowStep_16">
-                                    <ui:AppendLine DisplayName="Append line" FileName="[logFileName]" sap2010:WorkflowViewState.IdRef="AppendLine_5" Text="From,Subject, Attachment" />
+                                    <ui:AppendLine DisplayName="Append line" FileName="[LogFileName]" sap2010:WorkflowViewState.IdRef="AppendLine_5" Text="From,Subject, Attachment" />
                                     <FlowStep.Next>
                                       <FlowStep x:Name="__ReferenceID0" sap2010:WorkflowViewState.IdRef="FlowStep_3">
                                         <ui:ForEach x:TypeArguments="x:String" DisplayName="Get Attachements" sap2010:WorkflowViewState.IdRef="ForEach`1_1" Values="[FolderList]">
@@ -215,7 +215,7 @@
                                                             <InArgument x:TypeArguments="snm:AttachmentCollection">[msg.Attachments]</InArgument>
                                                           </Assign.Value>
                                                         </Assign>
-                                                        <ui:SaveMailAttachments Attachments="{x:Null}" DisplayName="Save Attachments" FolderPath="[otherFolder.FullName]" sap2010:WorkflowViewState.IdRef="SaveMailAttachments_2" Message="[msg]" />
+                                                        <ui:SaveMailAttachments Attachments="{x:Null}" DisplayName="Save Attachments" FolderPath="[OtherFolder.FullName]" sap2010:WorkflowViewState.IdRef="SaveMailAttachments_2" Message="[msg]" />
                                                         <ui:ForEach x:TypeArguments="snm:Attachment" DisplayName="For each" sap2010:WorkflowViewState.IdRef="ForEach`1_5" Values="[msg.Attachments]">
                                                           <ui:ForEach.Body>
                                                             <ActivityAction x:TypeArguments="snm:Attachment">
@@ -252,7 +252,7 @@
                                                                 </TryCatch>
                                                                 <TryCatch DisplayName="Try catch" sap2010:WorkflowViewState.IdRef="TryCatch_2">
                                                                   <TryCatch.Try>
-                                                                    <ui:AppendLine DisplayName="Append line" FileName="[logFileName]" sap2010:WorkflowViewState.IdRef="AppendLine_6" Text="[msg.Sender.Address + &quot;,&quot; + msg.Subject +&quot;,&quot; +  attach.Name]" />
+                                                                    <ui:AppendLine DisplayName="Append line" FileName="[LogFileName]" sap2010:WorkflowViewState.IdRef="AppendLine_6" Text="[msg.Sender.Address + &quot;,&quot; + msg.Subject +&quot;,&quot; +  attach.Name]" />
                                                                   </TryCatch.Try>
                                                                   <TryCatch.Catches>
                                                                     <Catch x:TypeArguments="s:Exception" sap2010:WorkflowViewState.IdRef="Catch`1_2">
@@ -279,7 +279,7 @@
                                         </ui:ForEach>
                                         <FlowStep.Next>
                                           <FlowStep x:Name="__ReferenceID3" sap2010:WorkflowViewState.IdRef="FlowStep_15">
-                                            <ui:ForEach x:TypeArguments="x:String" DisplayName="Sort Attachments" sap2010:WorkflowViewState.IdRef="ForEach`1_11" Values="[Directory.GetFiles(otherFolder.FullName)]">
+                                            <ui:ForEach x:TypeArguments="x:String" DisplayName="Sort Attachments" sap2010:WorkflowViewState.IdRef="ForEach`1_11" Values="[Directory.GetFiles(OtherFolder.FullName)]">
                                               <ui:ForEach.Body>
                                                 <ActivityAction x:TypeArguments="x:String">
                                                   <ActivityAction.Argument>
@@ -287,14 +287,14 @@
                                                   </ActivityAction.Argument>
                                                   <Sequence DisplayName="Body" sap2010:WorkflowViewState.IdRef="Sequence_9">
                                                     <Sequence.Variables>
-                                                      <Variable x:TypeArguments="si:DirectoryInfo" Name="targetFolder" />
-                                                      <Variable x:TypeArguments="si:FileInfo" Name="tempFileInfo" />
+                                                      <Variable x:TypeArguments="si:DirectoryInfo" Name="TargetFolder" />
+                                                      <Variable x:TypeArguments="si:FileInfo" Name="TempFileInfo" />
                                                     </Sequence.Variables>
                                                     <If Condition="[System.IO.Directory.Exists(AttachmentFolder +&quot;\\&quot; + Path.GetExtension(item))=False]" sap2010:WorkflowViewState.IdRef="If_3">
                                                       <If.Then>
                                                         <Assign sap2010:WorkflowViewState.IdRef="Assign_19">
                                                           <Assign.To>
-                                                            <OutArgument x:TypeArguments="si:DirectoryInfo">[targetFolder]</OutArgument>
+                                                            <OutArgument x:TypeArguments="si:DirectoryInfo">[TargetFolder]</OutArgument>
                                                           </Assign.To>
                                                           <Assign.Value>
                                                             <InArgument x:TypeArguments="si:DirectoryInfo">[System.IO.Directory.CreateDirectory(AttachmentFolder + "\\" + Path.GetExtension(item))]</InArgument>
@@ -304,7 +304,7 @@
                                                       <If.Else>
                                                         <Assign sap2010:WorkflowViewState.IdRef="Assign_20">
                                                           <Assign.To>
-                                                            <OutArgument x:TypeArguments="si:DirectoryInfo">[targetFolder]</OutArgument>
+                                                            <OutArgument x:TypeArguments="si:DirectoryInfo">[TargetFolder]</OutArgument>
                                                           </Assign.To>
                                                           <Assign.Value>
                                                             <InArgument x:TypeArguments="si:DirectoryInfo">[new System.IO.DirectoryInfo(AttachmentFolder + "\\" +Path.GetExtension(item))]</InArgument>
@@ -314,18 +314,18 @@
                                                     </If>
                                                     <Assign sap2010:WorkflowViewState.IdRef="Assign_21">
                                                       <Assign.To>
-                                                        <OutArgument x:TypeArguments="si:FileInfo">[tempFileInfo]</OutArgument>
+                                                        <OutArgument x:TypeArguments="si:FileInfo">[TempFileInfo]</OutArgument>
                                                       </Assign.To>
                                                       <Assign.Value>
                                                         <InArgument x:TypeArguments="si:FileInfo">[new System.IO.FileInfo(item)]</InArgument>
                                                       </Assign.Value>
                                                     </Assign>
-                                                    <If Condition="[File.Exists(targetFolder.FullName + &quot;\\&quot; + tempFileInfo.Name)]" sap2010:WorkflowViewState.IdRef="If_4">
+                                                    <If Condition="[File.Exists(TargetFolder.FullName + &quot;\\&quot; + TempFileInfo.Name)]" sap2010:WorkflowViewState.IdRef="If_4">
                                                       <If.Then>
-                                                        <ui:Delete ContinueOnError="True" DisplayName="Delete Old File" sap2010:WorkflowViewState.IdRef="Delete_1" Path="[targetFolder.FullName + &quot;\\&quot; + tempFileInfo.Name]" />
+                                                        <ui:Delete ContinueOnError="True" DisplayName="Delete Old File" sap2010:WorkflowViewState.IdRef="Delete_1" Path="[TargetFolder.FullName + &quot;\\&quot; + TempFileInfo.Name]" />
                                                       </If.Then>
                                                     </If>
-                                                    <ui:MoveFile ContinueOnError="True" Destination="[targetFolder.FullName + &quot;\\&quot; + tempFileInfo.Name]" DisplayName="Move file" sap2010:WorkflowViewState.IdRef="MoveFile_2" Overwrite="False" Path="[tempFileInfo.FullName]" />
+                                                    <ui:MoveFile ContinueOnError="True" Destination="[TargetFolder.FullName + &quot;\\&quot; + TempFileInfo.Name]" DisplayName="Move file" sap2010:WorkflowViewState.IdRef="MoveFile_2" Overwrite="False" Path="[TempFileInfo.FullName]" />
                                                   </Sequence>
                                                 </ActivityAction>
                                               </ui:ForEach.Body>
@@ -375,7 +375,7 @@
     <FlowStep sap2010:WorkflowViewState.IdRef="FlowStep_27">
       <ui:Comment DisplayName="5. Number of Top Messages to Get" sap2010:WorkflowViewState.IdRef="Comment_5" Text="// Specify the number of Top messages to read from the server&#xA;as Int32&#xA;e.g. 20" />
     </FlowStep>
-    <sads:DebugSymbol.Symbol>d15DOlxVc2Vyc1xzYWphdmVkXE9uZURyaXZlIC0gQWxzdG9tXEdJVEhVQlxTb3J0T3V0bG9va01haWxBdHRhY2htZW50c1xTb3J0TWFpbEF0dGFjaGVtZW50cy54YW1sakQD+wIPAgEBRjtGRgIBC0dFR2ECAQpKC0o6AgEJTTZNTQIBCE40TkcCAQdPOE9LAgEGUDxQRwIBBVI0Uk0CAQRTM1M3AgEDVDRUPQIBAlgJXxIDAZQBYg1pFgMBkAFsEXMaAwGMAXYVfR4DAYgBgAEZhwEiAwGEAYoBHbcBKAIBaboBIboBywECAWa9ASW9AbgBAgFiwAEplwI2AgEsmgItzAI6AgEMXTRdSwMBlwFaNVpCAwGVAWc6Z04DAZMBZDtkRwMBkQFxPHFRAwGPAW49bk8DAY0Be0B7WwMBiwF4QXhOAwGJAYUBQ4UBRwMBhwGCAUSCAVYDAYUBiwEfoAEkAgF3oQEftgEkAgFqugG5AboByAECAWe9AZsBvQG1AQIBZb0BV70BZgIBY8ABpAHAAbIBAgFgxgEvlAI6AgEtmgKpAZoC1QECASugAjPJAj4CAQ2LAS2LAWMCAXiNASOUASwCAX+XASOeASwCAXqhAS2hAYkBAgFrowEjqgEsAgFyrQEjtAEsAgFtxwExxwH8AgIBV8gBMZMCPgIBLqUCNboCOgIBIbsCNcICPgIBHMMCNccCOgIBFcgCNcgCnAICAQ6SAVaSAY0BAwGCAY8BV48BYwMBgAGcAVacAYUBAgF9mQFXmQFjAgF7qAFWqAGdAQIBdaUBV6UBZAIBc7IBVrIBlQECAXCvAVevAWQCAW7HAeUCxwH5AgIBXscBe8cBigECAVzHAbYCxwHFAgIBWscBkQLHAZkCAgFYyAGrAcgBugECAVXOATeQAkICAS+lAkOlAqMBAgEipwI5rgJCAgEnsQI5uAJCAgEjwAJjwAKBAQIBH70CZL0CcgIBHcMCQ8MCjgECARbFAjnFAuoBAgEXyAJSyAJYAgEUyAJlyAKjAQIBEcgCgALIApkCAgEP0gE52QFCAgFQ2gE52gH1AQIBS9sBOY8CRgIBMKwCbKwCxAECASqpAm2pAnsCASi2Amy2ArsBAgEmswJtswJ7AgEkxQJUxQJaAgEbxQKpAcUC5wECARjXAXTXAYUBAgFT1AF11AGCAQIBUdoB6wHaAfIBAgFO2gGSAdoBqgECAUzbAbIB2wHFAQIBSeEBP4wCSgIBMeIBQfwBTAIBPf0BQYsCTAIBMucBRecBiQICAULvAUn4AVICAT7/AUX/AZACAgE2hwJJhwK4AQIBM+cBogHnAbEBAgFH5wHtAecB8AECAUbnAfgB5wGGAgIBROcBugHnAb0BAgFD9QFP9QF+AgFB8QF18QGBAQIBP/8BuwH/AY0CAgE5/wF3/wGGAQIBN4cCoAGHArUBAgE0</sads:DebugSymbol.Symbol>
+    <sads:DebugSymbol.Symbol>d1ZDOlxVc2Vyc1xzYWphdmVkXERvY3VtZW50c1xHaXRIdWJcU29ydE91dGxvb2tNYWlsQXR0YWNobWVudHNcU29ydE1haWxBdHRhY2hlbWVudHMueGFtbGpEA/sCDwIBAUY7RkYCAQtHRUdhAgEKSgtKOgIBCU02TU0CAQhONE5HAgEHTzhPSwIBBlA8UEcCAQVSNFJMAgEEUzNTNwIBA1Q0VD0CAQJYCV8SAwGUAWINaRYDAZABbBFzGgMBjAF2FX0eAwGIAYABGYcBIgMBhAGKAR23ASgCAWm6ASG6AcsBAgFmvQElvQG4AQIBYsABKZcCNgIBLJoCLcwCOgIBDF00XUsDAZcBWjVaQgMBlQFnOmdOAwGTAWQ7ZEcDAZEBcTxxUQMBjwFuPW5PAwGNAXtAe1sDAYsBeEF4TgMBiQGFAUOFAUcDAYcBggFEggFWAwGFAYsBH6ABJAIBd6EBH7YBJAIBaroBuQG6AcgBAgFnvQGbAb0BtQECAWW9AVe9AWYCAWPAAaQBwAGyAQIBYMYBL5QCOgIBLZoCqQGaAtUBAgEroAIzyQI+AgENiwEtiwFjAgF4jQEjlAEsAgF/lwEjngEsAgF6oQEtoQGJAQIBa6MBI6oBLAIBcq0BI7QBLAIBbccBMccB/AICAVfIATGTAj4CAS6lAjW6AjoCASG7AjXCAj4CARzDAjXHAjoCARXIAjXIApwCAgEOkgFWkgGNAQMBggGPAVePAWMDAYABnAFWnAGFAQIBfZkBV5kBYwIBe6gBVqgBnQECAXWlAVelAWQCAXOyAVayAZUBAgFwrwFXrwFkAgFuxwHlAscB+QICAV7HAXvHAYoBAgFcxwG2AscBxQICAVrHAZECxwGZAgIBWMgBqwHIAboBAgFVzgE3kAJCAgEvpQJDpQKjAQIBIqcCOa4CQgIBJ7ECObgCQgIBI8ACY8ACgQECAR+9AmS9AnICAR3DAkPDAo4BAgEWxQI5xQLqAQIBF8gCUsgCWAIBFMgCZcgCowECARHIAoACyAKZAgIBD9IBOdkBQgIBUNoBOdoB9QECAUvbATmPAkYCATCsAmysAsQBAgEqqQJtqQJ7AgEotgJstgK7AQIBJrMCbbMCewIBJMUCVMUCWgIBG8UCqQHFAucBAgEY1wF01wGFAQIBU9QBddQBggECAVHaAesB2gHyAQIBTtoBkgHaAaoBAgFM2wGyAdsBxQECAUnhAT+MAkoCATHiAUH8AUwCAT39AUGLAkwCATLnAUXnAYkCAgFC7wFJ+AFSAgE+/wFF/wGQAgIBNocCSYcCuAECATPnAaIB5wGxAQIBR+cB7QHnAfABAgFG5wH4AecBhgICAUTnAboB5wG9AQIBQ/UBT/UBfgIBQfEBdfEBgQECAT//AbsB/wGNAgIBOf8Bd/8BhgECATeHAqABhwK1AQIBNA==</sads:DebugSymbol.Symbol>
   </Flowchart>
   <sap2010:WorkflowViewState.ViewStateManager>
     <sap2010:ViewStateManager>
@@ -451,7 +451,7 @@
       <sap2010:ViewStateData Id="TryCatch_1" sap:VirtualizedContainerService.HintSize="418,287" />
       <sap2010:ViewStateData Id="AppendLine_6" sap:VirtualizedContainerService.HintSize="314,87" />
       <sap2010:ViewStateData Id="WriteLine_1" sap:VirtualizedContainerService.HintSize="210,61" />
-      <sap2010:ViewStateData Id="Catch`1_2" sap:VirtualizedContainerService.HintSize="400,21">
+      <sap2010:ViewStateData Id="Catch`1_2" sap:VirtualizedContainerService.HintSize="404,21">
         <sap:WorkflowViewStateService.ViewState>
           <scg:Dictionary x:TypeArguments="x:String, x:Object">
             <x:Boolean x:Key="IsExpanded">False</x:Boolean>
@@ -459,24 +459,24 @@
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
       </sap2010:ViewStateData>
-      <sap2010:ViewStateData Id="TryCatch_2" sap:VirtualizedContainerService.HintSize="414,183" />
-      <sap2010:ViewStateData Id="Sequence_4" sap:VirtualizedContainerService.HintSize="440,634">
+      <sap2010:ViewStateData Id="TryCatch_2" sap:VirtualizedContainerService.HintSize="418,314" />
+      <sap2010:ViewStateData Id="Sequence_4" sap:VirtualizedContainerService.HintSize="440,765">
         <sap:WorkflowViewStateService.ViewState>
           <scg:Dictionary x:TypeArguments="x:String, x:Object">
             <x:Boolean x:Key="IsExpanded">True</x:Boolean>
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
       </sap2010:ViewStateData>
-      <sap2010:ViewStateData Id="ForEach`1_5" sap:VirtualizedContainerService.HintSize="456,768" />
-      <sap2010:ViewStateData Id="Sequence_3" sap:VirtualizedContainerService.HintSize="478,1119">
+      <sap2010:ViewStateData Id="ForEach`1_5" sap:VirtualizedContainerService.HintSize="456,899" />
+      <sap2010:ViewStateData Id="Sequence_3" sap:VirtualizedContainerService.HintSize="478,1250">
         <sap:WorkflowViewStateService.ViewState>
           <scg:Dictionary x:TypeArguments="x:String, x:Object">
             <x:Boolean x:Key="IsExpanded">True</x:Boolean>
           </scg:Dictionary>
         </sap:WorkflowViewStateService.ViewState>
       </sap2010:ViewStateData>
-      <sap2010:ViewStateData Id="ForEach`1_3" sap:VirtualizedContainerService.HintSize="494,1253" />
-      <sap2010:ViewStateData Id="Sequence_2" sap:VirtualizedContainerService.HintSize="516,1439">
+      <sap2010:ViewStateData Id="ForEach`1_3" sap:VirtualizedContainerService.HintSize="494,1384" />
+      <sap2010:ViewStateData Id="Sequence_2" sap:VirtualizedContainerService.HintSize="516,1570">
         <sap:WorkflowViewStateService.ViewState>
           <scg:Dictionary x:TypeArguments="x:String, x:Object">
             <x:Boolean x:Key="IsExpanded">True</x:Boolean>
