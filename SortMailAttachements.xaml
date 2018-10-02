@@ -51,8 +51,6 @@
       <AssemblyReference>System.Core</AssemblyReference>
       <AssemblyReference>System.Xml</AssemblyReference>
       <AssemblyReference>System.Xml.Linq</AssemblyReference>
-      <AssemblyReference>UiPath.Core</AssemblyReference>
-      <AssemblyReference>UiPath.Core.Activities</AssemblyReference>
       <AssemblyReference>PresentationFramework</AssemblyReference>
       <AssemblyReference>WindowsBase</AssemblyReference>
       <AssemblyReference>PresentationCore</AssemblyReference>
@@ -61,8 +59,11 @@
       <AssemblyReference>UiPath.IntelligentOCR</AssemblyReference>
       <AssemblyReference>Microsoft.VisualStudio.Services.Common</AssemblyReference>
       <AssemblyReference>System.ComponentModel.Composition</AssemblyReference>
-      <AssemblyReference>System.Runtime.WindowsRuntime</AssemblyReference>
       <AssemblyReference>System.Data.DataSetExtensions</AssemblyReference>
+      <AssemblyReference>UiPath.System.Activities</AssemblyReference>
+      <AssemblyReference>UiPath.UiAutomation.Activities</AssemblyReference>
+      <AssemblyReference>System.ValueTuple</AssemblyReference>
+      <AssemblyReference>System.Runtime.WindowsRuntime</AssemblyReference>
     </sco:Collection>
   </TextExpression.ReferencesForImplementation>
   <Flowchart DisplayName="SortOutlookMessages" sap2010:WorkflowViewState.IdRef="Flowchart_1">
@@ -90,7 +91,7 @@
             <OutArgument x:TypeArguments="x:String">[MailAccount]</OutArgument>
           </Assign.To>
           <Assign.Value>
-            <InArgument x:TypeArguments="x:String">myuiexample@outlook.com</InArgument>
+            <InArgument x:TypeArguments="x:String">["myuiexample@outlook.com"]</InArgument>
           </Assign.Value>
         </Assign>
         <FlowStep.Next>
@@ -120,7 +121,7 @@
                         <OutArgument x:TypeArguments="x:String">[LogFileName]</OutArgument>
                       </Assign.To>
                       <Assign.Value>
-                        <InArgument x:TypeArguments="x:String">["attachment_details..csv"]</InArgument>
+                        <InArgument x:TypeArguments="x:String">["attachment_details.csv"]</InArgument>
                       </Assign.Value>
                     </Assign>
                     <FlowStep.Next>
@@ -189,7 +190,7 @@
                                     <ui:AppendLine DisplayName="Append line" FileName="[LogFileName]" sap2010:WorkflowViewState.IdRef="AppendLine_5" Text="From,Subject, Attachment" />
                                     <FlowStep.Next>
                                       <FlowStep x:Name="__ReferenceID0" sap2010:WorkflowViewState.IdRef="FlowStep_3">
-                                        <ui:ForEach x:TypeArguments="x:String" DisplayName="Get Attachements" sap2010:WorkflowViewState.IdRef="ForEach`1_1" Values="[FolderList]">
+                                        <ui:ForEach x:TypeArguments="x:String" CurrentIndex="{x:Null}" DisplayName="Get Attachements" sap2010:WorkflowViewState.IdRef="ForEach`1_1" Values="[FolderList]">
                                           <ui:ForEach.Body>
                                             <ActivityAction x:TypeArguments="x:String">
                                               <ActivityAction.Argument>
@@ -197,26 +198,26 @@
                                               </ActivityAction.Argument>
                                               <Sequence DisplayName="Body" sap2010:WorkflowViewState.IdRef="Sequence_2">
                                                 <ui:GetOutlookMailMessages Filter="{x:Null}" TimeoutMS="{x:Null}" Account="[MailAccount]" DisplayName="Get outlook mail messages" GetAttachements="False" sap2010:WorkflowViewState.IdRef="GetOutlookMailMessages_3" MailFolder="[item]" MarkAsRead="False" Messages="[MessageList]" OnlyUnreadMessages="False" Top="[TopMessageToRead]" />
-                                                <ui:ForEach x:TypeArguments="snm:MailMessage" DisplayName="For each" sap2010:WorkflowViewState.IdRef="ForEach`1_3" Values="[MessageList]">
+                                                <ui:ForEach x:TypeArguments="snm:MailMessage" CurrentIndex="{x:Null}" DisplayName="For each" sap2010:WorkflowViewState.IdRef="ForEach`1_3" Values="[MessageList]">
                                                   <ui:ForEach.Body>
                                                     <ActivityAction x:TypeArguments="snm:MailMessage">
                                                       <ActivityAction.Argument>
-                                                        <DelegateInArgument x:TypeArguments="snm:MailMessage" Name="msg" />
+                                                        <DelegateInArgument x:TypeArguments="snm:MailMessage" Name="Msg" />
                                                       </ActivityAction.Argument>
                                                       <Sequence DisplayName="Body" sap2010:WorkflowViewState.IdRef="Sequence_3">
                                                         <Sequence.Variables>
-                                                          <Variable x:TypeArguments="snm:AttachmentCollection" Name="attachments" />
+                                                          <Variable x:TypeArguments="snm:AttachmentCollection" Name="Attachments" />
                                                         </Sequence.Variables>
                                                         <Assign sap2010:WorkflowViewState.IdRef="Assign_9">
                                                           <Assign.To>
-                                                            <OutArgument x:TypeArguments="snm:AttachmentCollection">[attachments]</OutArgument>
+                                                            <OutArgument x:TypeArguments="snm:AttachmentCollection">[Attachments]</OutArgument>
                                                           </Assign.To>
                                                           <Assign.Value>
-                                                            <InArgument x:TypeArguments="snm:AttachmentCollection">[msg.Attachments]</InArgument>
+                                                            <InArgument x:TypeArguments="snm:AttachmentCollection">[Msg.Attachments]</InArgument>
                                                           </Assign.Value>
                                                         </Assign>
-                                                        <ui:SaveMailAttachments Attachments="{x:Null}" DisplayName="Save Attachments" FolderPath="[OtherFolder.FullName]" sap2010:WorkflowViewState.IdRef="SaveMailAttachments_2" Message="[msg]" />
-                                                        <ui:ForEach x:TypeArguments="snm:Attachment" DisplayName="For each" sap2010:WorkflowViewState.IdRef="ForEach`1_5" Values="[msg.Attachments]">
+                                                        <ui:SaveMailAttachments Attachments="{x:Null}" DisplayName="Save Attachments" FolderPath="[OtherFolder.FullName]" sap2010:WorkflowViewState.IdRef="SaveMailAttachments_2" Message="[Msg]" />
+                                                        <ui:ForEach x:TypeArguments="snm:Attachment" CurrentIndex="{x:Null}" DisplayName="For each" sap2010:WorkflowViewState.IdRef="ForEach`1_5" Values="[Msg.Attachments]">
                                                           <ui:ForEach.Body>
                                                             <ActivityAction x:TypeArguments="snm:Attachment">
                                                               <ActivityAction.Argument>
@@ -225,10 +226,10 @@
                                                               <Sequence DisplayName="Body" sap2010:WorkflowViewState.IdRef="Sequence_4">
                                                                 <TryCatch DisplayName="Try catch" sap2010:WorkflowViewState.IdRef="TryCatch_1">
                                                                   <TryCatch.Variables>
-                                                                    <Variable x:TypeArguments="x:String" Name="msgSubject" />
+                                                                    <Variable x:TypeArguments="x:String" Name="MsgSubject" />
                                                                   </TryCatch.Variables>
                                                                   <TryCatch.Try>
-                                                                    <ui:Replace DisplayName="Private: Replace" sap2010:WorkflowViewState.IdRef="Replace_1" Input="[msg.Subject]" Pattern="," RegexOption="IgnoreCase, Compiled" Replacement=" " Result="[msgSubject]" />
+                                                                    <ui:Replace DisplayName="Private: Replace" sap2010:WorkflowViewState.IdRef="Replace_1" Input="[Msg.Subject]" Pattern="," RegexOption="IgnoreCase, Compiled" Replacement=" " Result="[MsgSubject]" />
                                                                   </TryCatch.Try>
                                                                   <TryCatch.Catches>
                                                                     <Catch x:TypeArguments="s:Exception" sap2010:WorkflowViewState.IdRef="Catch`1_1">
@@ -238,7 +239,7 @@
                                                                         </ActivityAction.Argument>
                                                                         <Assign sap2010:WorkflowViewState.IdRef="Assign_24">
                                                                           <Assign.To>
-                                                                            <OutArgument x:TypeArguments="x:String">[msgSubject]</OutArgument>
+                                                                            <OutArgument x:TypeArguments="x:String">[MsgSubject]</OutArgument>
                                                                           </Assign.To>
                                                                           <Assign.Value>
                                                                             <InArgument x:TypeArguments="x:String">
@@ -252,7 +253,7 @@
                                                                 </TryCatch>
                                                                 <TryCatch DisplayName="Try catch" sap2010:WorkflowViewState.IdRef="TryCatch_2">
                                                                   <TryCatch.Try>
-                                                                    <ui:AppendLine DisplayName="Append line" FileName="[LogFileName]" sap2010:WorkflowViewState.IdRef="AppendLine_6" Text="[msg.Sender.Address + &quot;,&quot; + msg.Subject +&quot;,&quot; +  attach.Name]" />
+                                                                    <ui:AppendLine DisplayName="Append line" FileName="[LogFileName]" sap2010:WorkflowViewState.IdRef="AppendLine_6" Text="[Msg.Sender.Address + &quot;,&quot; + Msg.Subject +&quot;,&quot; +  attach.Name]" />
                                                                   </TryCatch.Try>
                                                                   <TryCatch.Catches>
                                                                     <Catch x:TypeArguments="s:Exception" sap2010:WorkflowViewState.IdRef="Catch`1_2">
@@ -279,7 +280,7 @@
                                         </ui:ForEach>
                                         <FlowStep.Next>
                                           <FlowStep x:Name="__ReferenceID3" sap2010:WorkflowViewState.IdRef="FlowStep_15">
-                                            <ui:ForEach x:TypeArguments="x:String" DisplayName="Sort Attachments" sap2010:WorkflowViewState.IdRef="ForEach`1_11" Values="[Directory.GetFiles(OtherFolder.FullName)]">
+                                            <ui:ForEach x:TypeArguments="x:String" CurrentIndex="{x:Null}" DisplayName="Sort Attachments" sap2010:WorkflowViewState.IdRef="ForEach`1_11" Values="[Directory.GetFiles(OtherFolder.FullName)]">
                                               <ui:ForEach.Body>
                                                 <ActivityAction x:TypeArguments="x:String">
                                                   <ActivityAction.Argument>
@@ -375,7 +376,7 @@
     <FlowStep sap2010:WorkflowViewState.IdRef="FlowStep_27">
       <ui:Comment DisplayName="5. Number of Top Messages to Get" sap2010:WorkflowViewState.IdRef="Comment_5" Text="// Specify the number of Top messages to read from the server&#xA;as Int32&#xA;e.g. 20" />
     </FlowStep>
-    <sads:DebugSymbol.Symbol>d1ZDOlxVc2Vyc1xzYWphdmVkXERvY3VtZW50c1xHaXRIdWJcU29ydE91dGxvb2tNYWlsQXR0YWNobWVudHNcU29ydE1haWxBdHRhY2hlbWVudHMueGFtbGpEA/sCDwIBAUY7RkYCAQtHRUdhAgEKSgtKOgIBCU02TU0CAQhONE5HAgEHTzhPSwIBBlA8UEcCAQVSNFJMAgEEUzNTNwIBA1Q0VD0CAQJYCV8SAwGUAWINaRYDAZABbBFzGgMBjAF2FX0eAwGIAYABGYcBIgMBhAGKAR23ASgCAWm6ASG6AcsBAgFmvQElvQG4AQIBYsABKZcCNgIBLJoCLcwCOgIBDF00XUsDAZcBWjVaQgMBlQFnOmdOAwGTAWQ7ZEcDAZEBcTxxUQMBjwFuPW5PAwGNAXtAe1sDAYsBeEF4TgMBiQGFAUOFAUcDAYcBggFEggFWAwGFAYsBH6ABJAIBd6EBH7YBJAIBaroBuQG6AcgBAgFnvQGbAb0BtQECAWW9AVe9AWYCAWPAAaQBwAGyAQIBYMYBL5QCOgIBLZoCqQGaAtUBAgEroAIzyQI+AgENiwEtiwFjAgF4jQEjlAEsAgF/lwEjngEsAgF6oQEtoQGJAQIBa6MBI6oBLAIBcq0BI7QBLAIBbccBMccB/AICAVfIATGTAj4CAS6lAjW6AjoCASG7AjXCAj4CARzDAjXHAjoCARXIAjXIApwCAgEOkgFWkgGNAQMBggGPAVePAWMDAYABnAFWnAGFAQIBfZkBV5kBYwIBe6gBVqgBnQECAXWlAVelAWQCAXOyAVayAZUBAgFwrwFXrwFkAgFuxwHlAscB+QICAV7HAXvHAYoBAgFcxwG2AscBxQICAVrHAZECxwGZAgIBWMgBqwHIAboBAgFVzgE3kAJCAgEvpQJDpQKjAQIBIqcCOa4CQgIBJ7ECObgCQgIBI8ACY8ACgQECAR+9AmS9AnICAR3DAkPDAo4BAgEWxQI5xQLqAQIBF8gCUsgCWAIBFMgCZcgCowECARHIAoACyAKZAgIBD9IBOdkBQgIBUNoBOdoB9QECAUvbATmPAkYCATCsAmysAsQBAgEqqQJtqQJ7AgEotgJstgK7AQIBJrMCbbMCewIBJMUCVMUCWgIBG8UCqQHFAucBAgEY1wF01wGFAQIBU9QBddQBggECAVHaAesB2gHyAQIBTtoBkgHaAaoBAgFM2wGyAdsBxQECAUnhAT+MAkoCATHiAUH8AUwCAT39AUGLAkwCATLnAUXnAYkCAgFC7wFJ+AFSAgE+/wFF/wGQAgIBNocCSYcCuAECATPnAaIB5wGxAQIBR+cB7QHnAfABAgFG5wH4AecBhgICAUTnAboB5wG9AQIBQ/UBT/UBfgIBQfEBdfEBgQECAT//AbsB/wGNAgIBOf8Bd/8BhgECATeHAqABhwK1AQIBNA==</sads:DebugSymbol.Symbol>
+    <sads:DebugSymbol.Symbol>d1ZDOlxVc2Vyc1xzYWphdmVkXERvY3VtZW50c1xHaXRIdWJcU29ydE91dGxvb2tNYWlsQXR0YWNobWVudHNcU29ydE1haWxBdHRhY2hlbWVudHMueGFtbGpFA/wCDwIBAUc7R0YCAQtIRUhhAgEKSwtLOgIBCU42Tk0CAQhPNE9HAgEHUDhQSwIBBlE8UUcCAQVTNFNMAgEEVDNUNwIBA1U0VT0CAQJZCWASAwGUAWMNahYDAZABbRF0GgMBjAF3FX4eAwGIAYEBGYgBIgMBhAGLAR24ASgCAWm7ASG7AcsBAgFmvgElvgG4AQIBYsEBKZgCNgIBLJsCLc0COgIBDF40Xk8DAZcBWzVbQgMBlQFoOmhOAwGTAWU7ZUcDAZEBcjxyUQMBjwFvPW9PAwGNAXxAfFoDAYsBeUF5TgMBiQGGAUOGAUcDAYcBgwFEgwFWAwGFAYwBH6EBJAIBd6IBH7cBJAIBarsBuQG7AcgBAgFnvgGbAb4BtQECAWW+AVe+AWYCAWPBAbwBwQHKAQIBYMcBL5UCOgIBLZsCwQGbAu0BAgEroQIzygI+AgENjAEtjAFjAgF4jgEjlQEsAgF/mAEjnwEsAgF6ogEtogGJAQIBa6QBI6sBLAIBcq4BI7UBLAIBbcgBMcgB/AICAVfJATGUAj4CAS6mAjW7AjoCASG8AjXDAj4CARzEAjXIAjoCARXJAjXJApwCAgEOkwFWkwGNAQMBggGQAVeQAWMDAYABnQFWnQGFAQIBfZoBV5oBYwIBe6kBVqkBnQECAXWmAVemAWQCAXOzAVazAZUBAgFwsAFXsAFkAgFuyAHlAsgB+QICAV7IAXvIAYoBAgFcyAG2AsgBxQICAVrIAZECyAGZAgIBWMkBwwHJAdIBAgFVzwE3kQJCAgEvpgJDpgKjAQIBIqgCOa8CQgIBJ7ICObkCQgIBI8ECY8ECgQECAR++AmS+AnICAR3EAkPEAo4BAgEWxgI5xgLqAQIBF8kCUskCWAIBFMkCZckCowECARHJAoACyQKZAgIBD9MBOdoBQgIBUNsBOdsB9QECAUvcATmQAkYCATCtAmytAsQBAgEqqgJtqgJ7AgEotwJstwK7AQIBJrQCbbQCewIBJMYCVMYCWgIBG8YCqQHGAucBAgEY2AF02AGFAQIBU9UBddUBggECAVHbAesB2wHyAQIBTtsBkgHbAaoBAgFM3AHKAdwB3QECAUniAT+NAkoCATHjAUH9AUwCAT3+AUGMAkwCATLoAUXoAYkCAgFC8AFJ+QFSAgE+gAJFgAKQAgIBNogCSYgCuAECATPoAaIB6AGxAQIBR+gB7QHoAfABAgFG6AH4AegBhgICAUToAboB6AG9AQIBQ/YBT/YBfgIBQfIBdfIBgQECAT+AArsBgAKNAgIBOYACd4AChgECATeIAqABiAK1AQIBNA==</sads:DebugSymbol.Symbol>
   </Flowchart>
   <sap2010:WorkflowViewState.ViewStateManager>
     <sap2010:ViewStateManager>
